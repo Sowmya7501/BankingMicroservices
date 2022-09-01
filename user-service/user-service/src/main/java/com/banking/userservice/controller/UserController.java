@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -29,4 +28,13 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping(value="/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponse getUserbyId(@PathVariable("id") Long id) {
+        System.out.println("it came here?");
+        return userService.getUserbyId(id); }
+
+    @GetMapping(value="/cb/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Double getBalance(@PathVariable("id") Long id) { return userService.getBalance(id);}
 }

@@ -1,25 +1,28 @@
 package com.banking.userservice.model;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import javax.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import javax.persistence.Id;
 
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import java.math.BigDecimal;
-
 
 
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name="t_account")
+@Table(name="t_user")
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Data
 public class User {
 
     @Id
@@ -27,6 +30,6 @@ public class User {
     private Long id;
 
     private String name;
-    private String status;          //description
-    private BigDecimal balance;     //price
+    private String status;
+    private BigDecimal balance;
 }
