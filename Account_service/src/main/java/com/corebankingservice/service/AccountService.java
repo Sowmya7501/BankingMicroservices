@@ -48,4 +48,10 @@ public class AccountService {
         }
         return ans;
     }
+
+    @Transactional(readOnly = true)
+    public Double getBalance(Long id) {
+        Account account = accountRepository.findById(id).orElse(null);
+        return account.getAccountBalance();
+    }
 }
