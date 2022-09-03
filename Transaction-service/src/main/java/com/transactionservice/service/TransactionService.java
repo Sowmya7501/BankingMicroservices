@@ -1,6 +1,7 @@
 package com.transactionservice.service;
 
 
+import com.transactionservice.dto.AllTransactions;
 import com.transactionservice.dto.TransactionRequest;
 import com.transactionservice.model.Transaction;
 import com.transactionservice.repository.TransactionRepository;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -17,6 +19,22 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final WebClient.Builder webClientBuilder;
+
+    public List<AllTransactions> getTransactions(Long account_number){
+        List<Transaction> transactions = transactionRepository.findBySender_accountOrReceiver_account(account_number);
+
+        return transactions.stream().map(this::mapToAllTransactions).toList();
+    }
+
+    private AllTransactions mapToAllTransactions(Transaction transaction) {
+        return AllTransactions.builder()
+                .transaction_id(transaction.getTransaction_id())
+                .transaction_number(transaction.getTransaction_number())
+                .sender_account(transaction.getSender_account())
+                .receiver_account(transaction.getReceiver_account())
+                .amount(transaction.getAmount())
+                .build();
+    }
     public String completeTransaction(TransactionRequest transactionRequest){
         Transaction transaction = new Transaction();
         /*System.out.println(transactionRequest.getAmount());

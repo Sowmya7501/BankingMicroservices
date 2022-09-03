@@ -1,5 +1,4 @@
-package com.corebankingservice.model;
-
+package com.transactionservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

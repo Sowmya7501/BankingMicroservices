@@ -19,10 +19,12 @@ public class AccountController {
 
         return accountService.checkBalance(transactionRequest);
     }
-
+    /*
     @GetMapping("/cb")
     @ResponseStatus(HttpStatus.OK)
     public Double getBalance(@RequestParam Long id) {
         return accountService.getBalance(id);
     }
+
+     */
 }

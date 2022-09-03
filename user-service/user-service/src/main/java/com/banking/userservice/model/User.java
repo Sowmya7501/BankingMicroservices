@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name="t_user")
+@Table(name="t_account")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,6 +30,6 @@ public class User {
     private Long id;
 
     private String name;
-    private String status;
-    private BigDecimal balance;
+    private String accountNumber;
+    private Double accountbalance;
 }

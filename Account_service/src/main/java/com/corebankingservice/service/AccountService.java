@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.corebankingservice.model.Account;
 
-import java.math.BigDecimal;
+
 
 @Service
 @RequiredArgsConstructor
@@ -29,18 +29,18 @@ public class AccountService {
         Account sender_account = accountRepository.getById(account1.getId());
         Account receiver_account = accountRepository.getById(account2.getId());
         Double amount = transactionRequest.getAmount();
-        Double senderBalance = sender_account.getAccountBalance();
-        Double receiverBalance = receiver_account.getAccountBalance();
+        Double senderBalance = sender_account.getAccountbalance();
+        Double receiverBalance = receiver_account.getAccountbalance();
         if(amount <= senderBalance) {
-            sender_account.setAccountBalance(senderBalance-amount);
+            sender_account.setAccountbalance(senderBalance-amount);
             accountRepository.save(sender_account);
             Account saccount = accountRepository.getById(account1.getId());
 
-            System.out.println(saccount.getAccountBalance());
-            receiver_account.setAccountBalance(amount+receiverBalance);
+            System.out.println(saccount.getAccountbalance());
+            receiver_account.setAccountbalance(amount+receiverBalance);
             accountRepository.save(receiver_account);
             Account raccount = accountRepository.getById(account2.getId());
-            System.out.println(raccount.getAccountBalance());
+            System.out.println(raccount.getAccountbalance());
             ans=true;
         }
         else{
@@ -49,9 +49,9 @@ public class AccountService {
         return ans;
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public Double getBalance(Long id) {
         Account account = accountRepository.findById(id).orElse(null);
         return account.getAccountBalance();
-    }
+    }*/
 }

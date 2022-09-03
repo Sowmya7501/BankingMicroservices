@@ -34,7 +34,7 @@ public class UserController {
         System.out.println("it came here?");
         return userService.getUserbyId(id); }
 
-    @GetMapping(value="/cb/{id}")
+    /*@GetMapping(value="/cb/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Double getBalance(@PathVariable("id") Long id) { return userService.getBalance(id);}
+    public Double getBalance(@PathVariable("id") Long id) { return userService.getBalance(id);}*/
 }

@@ -14,6 +14,6 @@ import java.math.BigDecimal;
 public class UserRequest {
 
     private String name;
-    private String status;
-    private BigDecimal balance;
+    private String accountNumber;
+    private Double accountbalance;
 }

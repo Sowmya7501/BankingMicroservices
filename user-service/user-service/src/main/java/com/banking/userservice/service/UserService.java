@@ -24,8 +24,8 @@ public class UserService {
         User user = User.builder()
                 //.id(userRequest.getId())
                 .name(userRequest.getName())
-                .status(userRequest.getStatus())
-                .balance(userRequest.getBalance())
+                .accountNumber(userRequest.getAccountNumber())
+                .accountbalance(userRequest.getAccountbalance())
                 .build();
 
         userRepository.save(user);
@@ -44,7 +44,7 @@ public class UserService {
         return mapToUserResponse(user);
     }
 
-    public Double getBalance(Long id) {
+    /*public Double getBalance(Long id) {
         User user = userRepository.findById(id).orElse(null);
         Double balance = webClientBuilder.build().get()
                 .uri("http://localhost:8082/api/account/cb",
@@ -53,13 +53,13 @@ public class UserService {
                 .bodyToMono(Double.class)
                 .block();
         return balance;
-    }
+    }*/
     private UserResponse mapToUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .status(user.getStatus())
-                .balance(user.getBalance())
+                .accountNumber(user.getAccountNumber())
+                .accountbalance(user.getAccountbalance())
                 .build();
     }
 }
