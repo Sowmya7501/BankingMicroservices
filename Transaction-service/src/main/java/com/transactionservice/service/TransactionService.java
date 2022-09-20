@@ -47,7 +47,7 @@ public class TransactionService {
 
         Boolean result = false;
         result = webClientBuilder.build().post()
-                .uri("http://localhost:8082/api/account/trans")
+                .uri("http://banking-service-app:8082/api/account/trans")
                 .bodyValue(transactionRequest)
                         .retrieve()
                                 .bodyToMono(Boolean.class)
