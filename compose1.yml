@@ -1,0 +1,97 @@
+version: '3.1'
+services:
+  db:
+    image: mysql
+    container_name: mysql-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: transactionservice
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+  discoveryservice:
+    image: discovery-service-docker:compose
+    container_name: discoveryservice
+    ports:
+      - "8761:8761"
+
+  userservice: #it is just a name, which will be used only in this file.
+    image: user-service-docker:compose2         #name of the image after dockerfile executes
+    container_name: user-service-app  #name of the container created from docker image
+    #docker file name
+    ports:
+      - "8088:8088"                       #docker containter port with your os port
+    restart: always
+    links:
+      - discoveryservice
+    depends_on: #define dependencies of this app
+      - db
+      - discoveryservice #dependency name (which is defined with this name 'db' in this file earlier)
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/transactionservice?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+  bankingservice: #it is just a name, which will be used only in this file.
+    image: banking-service-docker:compose       #name of the image after dockerfile executes
+    container_name: banking-service-app  #name of the container created from docker image
+    #docker file name
+    ports:
+      - "8082:8082"                       #docker containter port with your os port
+    restart: always
+    links:
+      - discoveryservice
+
+    depends_on: #define dependencies of this app
+      - db
+      - discoveryservice
+
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/transactionservice?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+  transactionservice: #it is just a name, which will be used only in this file.
+    image: transaction-service-docker:compose1         #name of the image after dockerfile executes
+    container_name: transaction-service-app  #name of the container created from docker image
+    #docker file name
+    ports:
+      - "8081:8081"                       #docker containter port with your os port
+    restart: always
+
+    links:
+      - discoveryservice
+
+    depends_on: #define dependencies of this app
+      - db
+      - discoveryservice
+      - bankingservice
+
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/transactionservice?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+  apigateway:
+    image: api-gateway-docker:compose3
+    container_name: api-gateway-app
+    ports:
+      - "8089:8089"
+    restart: always
+    links:
+      - discoveryservice
+      - userservice
+      - transactionservice
+      - bankingservice
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discoveryservice:8761/eureka
